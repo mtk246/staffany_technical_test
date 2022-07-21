@@ -15,6 +15,7 @@ import { useHistory } from "react-router-dom";
 import ConfirmDialog from "../components/ConfirmDialog";
 import Alert from "@material-ui/lab/Alert";
 import { Link as RouterLink } from "react-router-dom";
+import Calendar from "react-calendar";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -66,6 +67,8 @@ const Shift = () => {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState<boolean>(false);
   const [deleteLoading, setDeleteLoading] = useState<boolean>(false);
 
+  const [calDate, setCalDate] = useState(new Date());
+
   const onDeleteClick = (id: string) => {
     setSelectedId(id);
     setShowDeleteConfirm(true);
@@ -75,6 +78,10 @@ const Shift = () => {
     setSelectedId(null);
     setShowDeleteConfirm(false);
   };
+
+  function onChangeCalendar(date: Date) {
+    setCalDate(date);
+  }
 
   useEffect(() => {
     const getData = async () => {
@@ -159,6 +166,7 @@ const Shift = () => {
             ) : (
               <></>
             )}
+            <Calendar onChange={onChangeCalendar} value={calDate} />
             <DataTable
               title="Shifts"
               columns={columns}

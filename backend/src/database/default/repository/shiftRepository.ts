@@ -8,6 +8,10 @@ import {
 import moduleLogger from "../../../shared/functions/logger";
 import Shift from "../entity/shift";
 import { QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity";
+import { count } from "console";
+import { array } from "joi";
+import { start } from "repl";
+import { startTimer } from "winston";
 
 const logger = moduleLogger("shiftRepository");
 
@@ -27,6 +31,23 @@ export const findById = async (
   const data = await repository.findOne(id, opts);
   return data;
 };
+
+export const checkExist = async (
+  startTime: string,
+  endTime: string,
+  date: string,
+): Promise<Shift> => {
+  logger.info("Check exist");
+  const repository = getRepository(Shift);
+ const data = await repository.find({
+    where: {
+      startTime: startTime,
+      endTime: endTime,
+      date,
+    },
+ });
+  return data.length > 0 ? data[0] : null;
+}
 
 export const findOne = async (
   where?: FindConditions<Shift>,

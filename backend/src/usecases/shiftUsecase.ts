@@ -14,6 +14,14 @@ export const findById = async (
   return shiftRepository.findById(id, opts);
 };
 
+export const checkExist = async (
+  startTime: string,
+  endTime: string,
+  date: string,
+): Promise<Shift> => {
+  return shiftRepository.checkExist(startTime,endTime,date);
+};
+
 export const create = async (payload: ICreateShift): Promise<Shift> => {
   const shift = new Shift();
   shift.name = payload.name;
@@ -28,7 +36,7 @@ export const updateById = async (
   id: string,
   payload: IUpdateShift
 ): Promise<Shift> => {
-  return shiftRepository.updateById(id, {
+  return shiftRepository.updateById(id,{
     ...payload,
   });
 };

@@ -162,11 +162,22 @@ const ShiftForm = () => {
       };
 
       if (id) {
-        await updateShiftById(id, payload);
+        const updateShift = await updateShiftById(id, payload);
+        if(updateShift.statusCode === 200) {
+          history.push("/shift");
+        }
+        if(updateShift.statusCode === 400) {
+          setErrMsg(updateShift.message);
+        }
       } else {
-        await createShifts(payload);
+        const createShift = await createShifts(payload);
+        if(createShift.statusCode === 200) {
+          history.push("/shift");
+        }
+        if(createShift.statusCode === 400) {
+          setErrMsg(createShift.message);
+        }
       }
-      history.push("/shift");
     } catch (error) {
       const message = getErrorMessage(error);
       setErrMsg(message);
